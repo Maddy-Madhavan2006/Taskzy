@@ -36,7 +36,7 @@ function Register() {
 
     try {
       // 3. API Call to Backend
-      const response = await fetch('http://localhost:8081/api/auth/register', {
+      const response = await fetch('https://taskflow-1-v0ec.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -43,7 +43,7 @@ const SettingsPage = () => {
   const handleUpdateProfile = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8081/api/auth/update-profile",
+        "https://taskflow-1-v0ec.onrender.com/api/auth/update-profile",
         {
           method: "PUT",
 
