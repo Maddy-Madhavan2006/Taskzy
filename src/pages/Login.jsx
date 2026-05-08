@@ -72,7 +72,7 @@ function Login() {
           <div className="bg-indigo-600 p-2 rounded-lg mb-2 text-white shadow-md">
             <LayoutDashboard size={20} />
           </div>
-          <h1 className="text-md font-bold !text-slate-900 tracking-tight">TaskNest</h1>
+          <h1 className="text-md font-bold !text-slate-900 tracking-tight">Taskzy</h1>
           <p className="text-slate-400 text-[11px] mt-0.5 text-center">Sign in to your workspace</p>
         </div>
         
