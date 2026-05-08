@@ -147,7 +147,7 @@ const TaskCard = ({ title, desc }) => (
           <AvatarFallback className="text-[8px]">U</AvatarFallback>
         </Avatar>
         <Badge variant="secondary" className="text-[9px] px-2 py-0 h-5 bg-indigo-50 text-indigo-600 border-none font-bold italic">
-          TaskFlow
+          Taskzy
         </Badge>
       </div>
     </CardContent>

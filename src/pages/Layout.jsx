@@ -65,7 +65,7 @@ const Layout = () => {
           </div>
 
           <span className="text-xl font-bold tracking-tight">
-            TaskFlow
+            Taskzy
           </span>
         </div>
 

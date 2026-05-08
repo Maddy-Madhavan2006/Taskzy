@@ -77,9 +77,9 @@ function Register() {
           <div className="bg-indigo-600 p-2 rounded-lg mb-2 text-white shadow-md">
             <LayoutDashboard size={20} />
           </div>
-          <h1 className="text-md font-bold !text-slate-900 tracking-tight">TaskFlow</h1>
+          <h1 className="text-md font-bold !text-slate-900 tracking-tight">Taskzy</h1>
           <p className="text-slate-400 text-[11px] mt-0.5 text-center">
-            Join TaskFlow to start managing your projects
+            Join Taskzy to start managing your projects
           </p>
         </div>
         
