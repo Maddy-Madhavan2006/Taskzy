@@ -10,7 +10,9 @@ import {
   Search,
   Bell,
   Plus,
-  LogOut
+  LogOut,
+  Menu,
+  X
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -28,15 +30,14 @@ import { Separator } from "@/components/ui/separator";
 const Layout = () => {
   const navigate = useNavigate();
 
-  // ✅ STATE instead of direct localStorage access
   const [user, setUser] = React.useState(null);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false); // 📱 mobile sidebar
 
   React.useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
   }, []);
 
-  // USER INITIALS
   const initials = user?.username
     ? user.username
         .split(" ")
@@ -46,29 +47,40 @@ const Layout = () => {
         .slice(0, 2)
     : "GU";
 
-  // LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("token"); // 🔥 IMPORTANT FIX
+    localStorage.removeItem("token");
 
-    setUser(null); // update UI instantly
-
+    setUser(null);
     navigate("/login");
   };
 
   return (
     <div className="flex h-screen w-full bg-slate-50/50 overflow-hidden">
 
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#1e2632] text-slate-300 flex flex-col shrink-0">
+      {/* ================= MOBILE TOP BAR ================= */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b flex items-center justify-between px-4 z-50">
+
+        <div className="font-bold text-lg">Taskzy</div>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <Menu />
+        </Button>
+
+      </div>
+
+      {/* ================= SIDEBAR (DESKTOP) ================= */}
+      <aside className="hidden md:flex w-64 bg-[#1e2632] text-slate-300 flex-col shrink-0">
 
         <div className="p-6 flex items-center gap-3 text-white">
           <div className="bg-indigo-500 p-1.5 rounded-lg">
             <LayoutDashboard size={20} />
           </div>
-          <span className="text-xl font-bold tracking-tight">
-            Taskzy
-          </span>
+          <span className="text-xl font-bold tracking-tight">Taskzy</span>
         </div>
 
         <ScrollArea className="flex-1 px-4">
@@ -82,9 +94,10 @@ const Layout = () => {
             <SidebarLink to="/settings" icon={<Settings size={18} />} label="Settings" />
 
           </div>
+
         </ScrollArea>
 
-        {/* User */}
+        {/* USER */}
         <div className="p-4 mt-auto border-t border-slate-700/50">
 
           <div className="bg-slate-800/40 rounded-xl p-3 flex items-center gap-3 border border-slate-700/50">
@@ -108,7 +121,6 @@ const Layout = () => {
               size="icon"
               onClick={handleLogout}
               className="h-8 w-8 text-slate-400 hover:text-red-400 hover:bg-red-400/10"
-              title="Logout"
             >
               <LogOut size={16} />
             </Button>
@@ -117,10 +129,48 @@ const Layout = () => {
         </div>
       </aside>
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white">
+      {/* ================= MOBILE SIDEBAR OVERLAY ================= */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
 
-        <header className="h-16 border-b flex items-center justify-between px-8">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setSidebarOpen(false)}
+          />
+
+          <aside className="w-64 bg-[#1e2632] text-slate-300 flex flex-col z-50">
+
+            <div className="p-4 flex justify-between items-center text-white">
+              <span className="font-bold text-lg">Taskzy</span>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <X />
+              </Button>
+            </div>
+
+            <div className="px-4 space-y-1">
+
+              <SidebarLink to="/" icon={<LayoutDashboard size={18} />} label="Dashboard" />
+              <SidebarLink to="/tasks" icon={<CheckSquare size={18} />} label="My Tasks" />
+              <SidebarLink to="/projects" icon={<Folder size={18} />} label="Projects" />
+              <SidebarLink to="/analytics" icon={<BarChart3 size={18} />} label="Analytics" />
+              <SidebarLink to="/settings" icon={<Settings size={18} />} label="Settings" />
+
+            </div>
+
+          </aside>
+
+        </div>
+      )}
+
+      {/* ================= MAIN ================= */}
+      <div className="flex-1 flex flex-col min-w-0 bg-white md:ml-0 pt-14 md:pt-0">
+
+        <header className="h-16 border-b flex items-center justify-between px-4 md:px-8">
 
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
@@ -141,6 +191,7 @@ const Layout = () => {
             </Button>
 
           </div>
+
         </header>
 
         <main className="flex-1 overflow-y-auto">
@@ -155,6 +206,7 @@ const Layout = () => {
 const SidebarLink = ({ to, icon, label }) => (
   <NavLink
     to={to}
+    onClick={() => {}}
     className={({ isActive }) =>
       `flex items-center gap-3 h-10 px-3 rounded-lg ${
         isActive
